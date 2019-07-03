@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Conway's game of life</title>
+    <link rel="stylesheet" href="index1.css">
+</head>
+
+<body>
+    <header>
+        <h1>Conway's game of life</h1>
+    </header>
+    <div class="container">
+        <form>
+            <div class="form_input">
+                <label>rows number:</label>
+                <input id="rows" type="number">
+            </div>
+            <div class="form_input">
+                <label>columns number:</label>
+                <input id="cols" type="number">
+            </div>
+            <div class="btnbox">
+                <button class="btnbox_startbtn" onclick="createarea(event)">start</button>
+            </div>
+        </form>
+        <div class="gameareabox">
+            <table class="gameareabox_gamearea"></table>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="index1.js"></script>
+</body>
+
+</html>
