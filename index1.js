@@ -1,11 +1,20 @@
+let rownum;
+let colnum;
+
+function kill() {
+    if (this.className === "alive")
+        this.className = "dead";
+    else
+        this.className = "alive";
+}
+
 function createarea(event) {
-    let rownum;
-    let colnum;
     let temp1 = document.querySelector("#rows").value;
     let temp2 = document.querySelector("#cols").value;
     let tbl = document.querySelector("table");
-    let tbdy = document.createElement('tbody');
-    tbl.appendChild(tbdy);
+    if (tbl.childElementCount !== 0)
+        while (tbl.firstChild)
+            tbl.deleteRow(0);
     let td;
     let tr;
     if (temp1 === "" || temp2 === "") {
@@ -19,8 +28,10 @@ function createarea(event) {
         for (let j = 0; j < colnum; j++) {
             td = document.createElement('td');
             td.setAttribute("id", i + "," + j);
+            td.className = "alive";
+            td.addEventListener('click', kill);
             tr.appendChild(td);
         }
-        tbdy.appendChild(tr);
+        tbl.appendChild(tr);
     }
 }

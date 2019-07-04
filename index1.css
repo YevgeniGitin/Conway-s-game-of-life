@@ -3,11 +3,6 @@ h1 {
     text-shadow: 2px 2px 8px rgb(102, 173, 231);
 }
 
-.gamearea {
-    height: 20em;
-    width: 20em;
-}
-
 .container {
     width: 100%;
     display: flex;
@@ -16,8 +11,8 @@ h1 {
 }
 
 .gameareabox {
-    width: 32em;
-    height: 32em;
+    width: 40em;
+    height: 40em;
 }
 
 .gameareabox_gamearea {
@@ -26,7 +21,15 @@ h1 {
 }
 
 td {
-    border: 1px solid black;
+    border: 1px solid rgb(241, 239, 239);
+}
+
+.alive {
+    background-color: white;
+}
+
+.dead {
+    background-color: rgb(100, 4, 36);
 }
 
 form {
@@ -40,8 +43,8 @@ form {
 }
 
 button {
-    width: 5em;
-    height: 3em;
+    width: 7em;
+    height: 4em;
     margin-top: 1em;
 }
 
