@@ -6,13 +6,19 @@ h1 {
 .container {
     width: 100%;
     display: flex;
+    justify-content: center;
+}
+
+aside {
+    width: 30%;
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .gameareabox {
-    width: 40em;
-    height: 40em;
+    width: 70%;
+    height: 30em;
 }
 
 .gameareabox_gamearea {
@@ -21,20 +27,17 @@ h1 {
 }
 
 td {
-    border: 1px solid rgb(241, 239, 239);
-}
-
-.alive {
-    background-color: white;
+    padding: 0;
+    margin: 0;
+    border: 0.1px solid rgb(241, 239, 239);
 }
 
 .dead {
-    background-color: rgb(100, 4, 36);
+    background-color: white;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
+.alive {
+    background-color: rgb(100, 4, 36);
 }
 
 .form_input {
@@ -42,13 +45,28 @@ form {
     flex-direction: column;
 }
 
+input {
+    width: 10em;
+}
+
 button {
     width: 7em;
     height: 4em;
     margin-top: 1em;
+    margin-left: 1px;
 }
 
 .btnbox {
     display: flex;
     justify-content: center;
+}
+
+.speedbox {
+    display: flex;
+    justify-items: center;
+    margin-top: 2em;
+}
+
+img {
+    width: 2em;
 }

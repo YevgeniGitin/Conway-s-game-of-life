@@ -1,5 +1,6 @@
 let rownum;
 let colnum;
+let interval;
 
 function kill() {
     if (this.className === "alive")
@@ -9,6 +10,9 @@ function kill() {
 }
 
 function createarea(event) {
+    if (interval)
+        clearInterval(interval);
+
     let temp1 = document.querySelector("#rows").value;
     let temp2 = document.querySelector("#cols").value;
     let tbl = document.querySelector("table");
@@ -27,11 +31,145 @@ function createarea(event) {
         let tr = document.createElement('tr');
         for (let j = 0; j < colnum; j++) {
             td = document.createElement('td');
-            td.setAttribute("id", i + "," + j);
-            td.className = "alive";
+            td.setAttribute("id", `id${i}${j}`);
+            td.className = "dead";
             td.addEventListener('click', kill);
             tr.appendChild(td);
         }
         tbl.appendChild(tr);
     }
+}
+
+function changespeed(value) {
+    clearInterval(interval);
+    interval = setInterval("gameoflife()", parseInt(value));
+}
+
+function start() {
+    interval = setInterval("gameoflife()", parseInt(document.querySelector(`#rangespeed`).value));
+}
+
+function gameoflife() {
+    let arr = [];
+    let temp;
+    let changecell;
+    for (let i = 0; i < rownum; i++)
+        for (let j = 0; j < colnum; j++) {
+            let deadccnt = 0;
+            let alivecnt = 0;
+            let td = document.querySelector(`#id${i}${j}`);
+            if (i === 0 && j === 0) {
+                if (document.querySelector(`#id${i}${j+1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j+1}`).className === "alive")
+                    alivecnt++;
+            } else if (i === 0 && j === colnum - 1) {
+                if (document.querySelector(`#id${i}${j-1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j-1}`).className === "alive")
+                    alivecnt++;
+            } else if (i === 0 && j !== colnum - 1 && j !== 0) {
+                if (document.querySelector(`#id${i}${j-1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i}${j+1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j-1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j+1}`).className === "alive")
+                    alivecnt++;
+            } else if (i === rownum - 1 && j === 0) {
+                if (document.querySelector(`#id${i-1}${j}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i-1}${j+1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i}${j+1}`).className === "alive")
+                    alivecnt++;
+            } else if (i !== 0 && i !== rownum - 1 && j === 0) {
+                if (document.querySelector(`#id${i-1}${j}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i-1}${j+1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i}${j+1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j+1}`).className === "alive")
+                    alivecnt++;
+            } else if (i === rownum - 1 && j === colnum - 1) {
+                if (document.querySelector(`#id${i-1}${j}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i-1}${j-1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i}${j-1}`).className === "alive")
+                    alivecnt++;
+            } else if (i === rownum - 1 && j !== colnum - 1 && j !== 0) {
+                if (document.querySelector(`#id${i-1}${j-1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i-1}${j}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i-1}${j+1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i}${j-1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i}${j+1}`).className === "alive")
+                    alivecnt++;
+            } else if (i !== rownum - 1 && i !== 0 && j === colnum - 1) {
+                if (document.querySelector(`#id${i-1}${j}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i-1}${j-1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i}${j-1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j-1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j}`).className === "alive")
+                    alivecnt++;
+            } else {
+                if (document.querySelector(`#id${i-1}${j-1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i-1}${j}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i-1}${j+1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i}${j-1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i}${j+1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j-1}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j}`).className === "alive")
+                    alivecnt++;
+                if (document.querySelector(`#id${i+1}${j+1}`).className === "alive")
+                    alivecnt++;
+            }
+            if (td.className === "dead") {
+                if (alivecnt === 3)
+                    arr.push({
+                        id: `#id${i}${j}`,
+                        class: "alive"
+                    });
+            } else {
+                if (alivecnt < 2 || alivecnt > 3)
+                    arr.push({
+                        id: `#id${i}${j}`,
+                        class: "dead"
+                    });
+            }
+        }
+
+    while (arr.length !== 0) {
+        temp = arr.pop();
+        changecell = document.querySelector(temp.id);
+        changecell.className = temp.class;
+    }
+}
+
+function pause() {
+    clearInterval(interval);
 }

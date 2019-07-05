@@ -14,23 +14,30 @@
         <h1>Conway's game of life</h1>
     </header>
     <div class="container">
-        <form>
+        <aside>
             <div class="form_input">
                 <label>rows number:</label>
-                <input id="rows" type="number">
+                <input id="rows" type="number" min="5" max="100" onkeydown="return false">
             </div>
-            <div class="form_input">
+            <div class=" form_input ">
                 <label>columns number:</label>
-                <input id="cols" type="number">
+                <input id="cols" type="number" min="5" max="100" onkeydown="return false">
             </div>
-        </form>
-        <div class="btnbox">
-            <button class="btnbox_startbtn" onclick="createarea(event)">create area</button>
-        </div>
+            <div class="btnbox">
+                <button class="btnbox_startbtn" onclick="createarea(event)">create area</button>
+                <button class="btnbox_startbtn" onclick="start()">start</button>
+                <button class="btnbox_startbtn" onclick="pause()">pause</button>
+            </div>
+            <div class="speedbox">
+                <img src="img/1.jpg" alt="icon">
+                <input id="rangespeed" class="range" type="range" min="30" max="200" step="1" onchange="changespeed(this.value)">
+            </div>
+        </aside>
         <div class="gameareabox">
             <table class="gameareabox_gamearea"></table>
         </div>
     </div>
+
 
     <script type="text/javascript" src="index1.js"></script>
 </body>
