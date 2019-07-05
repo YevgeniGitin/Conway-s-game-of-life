@@ -70,3 +70,26 @@ button {
 img {
     width: 2em;
 }
+
+.randbox {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    margin-top: 1em;
+}
+
+.randbox_rand {
+    width: 3em;
+    height: 1.5em;
+}
+
+.randbtn {
+    width: 5em;
+    height: 1.5em;
+    margin-top: 0;
+    margin-left: 0.5em;
+}
+
+.randbox_rand ::after {
+    content: "%"
+}

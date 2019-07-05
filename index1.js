@@ -8,14 +8,12 @@ function kill() {
     else
         this.className = "alive";
 }
-
+//create game erea by two values from the user
 function createarea(event) {
-    if (interval)
-        clearInterval(interval);
-
     let temp1 = document.querySelector("#rows").value;
     let temp2 = document.querySelector("#cols").value;
     let tbl = document.querySelector("table");
+    //if not first time click remove the old table
     if (tbl.childElementCount !== 0)
         while (tbl.firstChild)
             tbl.deleteRow(0);
@@ -39,16 +37,16 @@ function createarea(event) {
         tbl.appendChild(tr);
     }
 }
-
+//change the speed of the game by using input type range
 function changespeed(value) {
     clearInterval(interval);
     interval = setInterval("gameoflife()", parseInt(value));
 }
-
+//start the game
 function start() {
     interval = setInterval("gameoflife()", parseInt(document.querySelector(`#rangespeed`).value));
 }
-
+//check all the 4 rules and count alive cells for each cell
 function gameoflife() {
     let arr = [];
     let temp;
@@ -148,6 +146,7 @@ function gameoflife() {
                 if (document.querySelector(`#id${i+1}${j+1}`).className === "alive")
                     alivecnt++;
             }
+            //the rules
             if (td.className === "dead") {
                 if (alivecnt === 3)
                     arr.push({
@@ -162,14 +161,28 @@ function gameoflife() {
                     });
             }
         }
-
+        //make the changes
     while (arr.length !== 0) {
         temp = arr.pop();
         changecell = document.querySelector(temp.id);
         changecell.className = temp.class;
     }
 }
-
+//make pause
 function pause() {
     clearInterval(interval);
+}
+
+function randfill() {
+    let numfill = parseInt(document.querySelector("#rand").value);
+    let cells = parseInt(colnum) * parseInt(rownum);
+    numfill = numfill * cells / 100;
+    for (let k = 0; k <= numfill; k++) {
+        let i = Math.floor(Math.random() * parseInt(colnum));
+        let j = Math.floor(Math.random() * parseInt(rownum));
+        if (document.querySelector(`#id${i}${j}`).className === "alive")
+            k--;
+        else
+            document.querySelector(`#id${i}${j}`).className = "alive";
+    }
 }
