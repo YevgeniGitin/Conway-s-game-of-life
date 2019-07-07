@@ -1,7 +1,9 @@
 let rownum;
 let colnum;
 let interval;
+let startflag = 0; //flag for know if the game i running or not
 
+// when we click on cell change the state and color of this cell 
 function kill() {
     if (this.className === "alive")
         this.className = "dead";
@@ -10,26 +12,26 @@ function kill() {
 }
 //create game erea by two values from the user
 function createarea(event) {
-    let temp1 = document.querySelector("#rows").value;
-    let temp2 = document.querySelector("#cols").value;
     let tbl = document.querySelector("table");
+    let td;
+    let tr;
+    //check if it is the first game if not dellete the interval
+    if (startflag) {
+        clearInterval(interval);
+        startflag = 0;
+    }
     //if not first time click remove the old table
     if (tbl.childElementCount !== 0)
         while (tbl.firstChild)
             tbl.deleteRow(0);
-    let td;
-    let tr;
-    if (temp1 === "" || temp2 === "") {
-        window.alert("fill all the data(rows and column)");
-        return;
-    }
-    rownum = parseInt(temp1);
-    colnum = parseInt(temp2);
+    //create new table
+    rownum = parseInt(document.querySelector("#rows").value);
+    colnum = parseInt(document.querySelector("#cols").value);
     for (let i = 0; i < rownum; i++) {
         let tr = document.createElement('tr');
         for (let j = 0; j < colnum; j++) {
             td = document.createElement('td');
-            td.setAttribute("id", `id${i}${j}`);
+            td.setAttribute("id", `id${i}_${j}`);
             td.className = "dead";
             td.addEventListener('click', kill);
             tr.appendChild(td);
@@ -39,124 +41,129 @@ function createarea(event) {
 }
 //change the speed of the game by using input type range
 function changespeed(value) {
-    clearInterval(interval);
-    interval = setInterval("gameoflife()", parseInt(value));
+    if (startflag) { //change speed on run only in running mode on the game
+        clearInterval(interval);
+        interval = setInterval("gameoflife()", parseInt(value));
+    }
 }
 //start the game
 function start() {
-    interval = setInterval("gameoflife()", parseInt(document.querySelector(`#rangespeed`).value));
+    if (!startflag) { //check for not dubble click for solve many intervals
+        interval = setInterval("gameoflife()", parseInt(document.querySelector(`#rangespeed`).value));
+        startflag = 1;
+    }
 }
 //check all the 4 rules and count alive cells for each cell
 function gameoflife() {
-    let arr = [];
+    let arr = []; //array for save the chenges
     let temp;
     let changecell;
     for (let i = 0; i < rownum; i++)
         for (let j = 0; j < colnum; j++) {
-            let deadccnt = 0;
             let alivecnt = 0;
-            let td = document.querySelector(`#id${i}${j}`);
+            let td = document.querySelector(`#id${i}_${j}`);
+            // for each cell check 9 cases and save alive neighbors
             if (i === 0 && j === 0) {
-                if (document.querySelector(`#id${i}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i}_${j+1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j+1}`).className === "alive")
                     alivecnt++;
             } else if (i === 0 && j === colnum - 1) {
-                if (document.querySelector(`#id${i}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i}_${j-1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j-1}`).className === "alive")
                     alivecnt++;
             } else if (i === 0 && j !== colnum - 1 && j !== 0) {
-                if (document.querySelector(`#id${i}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i}_${j-1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i}_${j+1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j-1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j+1}`).className === "alive")
                     alivecnt++;
             } else if (i === rownum - 1 && j === 0) {
-                if (document.querySelector(`#id${i-1}${j}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i-1}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j+1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i}_${j+1}`).className === "alive")
                     alivecnt++;
             } else if (i !== 0 && i !== rownum - 1 && j === 0) {
-                if (document.querySelector(`#id${i-1}${j}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i-1}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j+1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i}_${j+1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j+1}`).className === "alive")
                     alivecnt++;
             } else if (i === rownum - 1 && j === colnum - 1) {
-                if (document.querySelector(`#id${i-1}${j}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i-1}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j-1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i}_${j-1}`).className === "alive")
                     alivecnt++;
             } else if (i === rownum - 1 && j !== colnum - 1 && j !== 0) {
-                if (document.querySelector(`#id${i-1}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j-1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i-1}${j}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i-1}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j+1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i}_${j-1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i}_${j+1}`).className === "alive")
                     alivecnt++;
             } else if (i !== rownum - 1 && i !== 0 && j === colnum - 1) {
-                if (document.querySelector(`#id${i-1}${j}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i-1}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j-1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i}_${j-1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j-1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j}`).className === "alive")
                     alivecnt++;
             } else {
-                if (document.querySelector(`#id${i-1}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j-1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i-1}${j}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i-1}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i-1}_${j+1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i}_${j-1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i}_${j+1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j-1}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j-1}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j}`).className === "alive")
                     alivecnt++;
-                if (document.querySelector(`#id${i+1}${j+1}`).className === "alive")
+                if (document.querySelector(`#id${i+1}_${j+1}`).className === "alive")
                     alivecnt++;
             }
-            //the rules
+            //the 4 rules
             if (td.className === "dead") {
                 if (alivecnt === 3)
-                    arr.push({
-                        id: `#id${i}${j}`,
+                    arr.push({ //push the change
+                        id: `#id${i}_${j}`,
                         class: "alive"
                     });
             } else {
                 if (alivecnt < 2 || alivecnt > 3)
-                    arr.push({
-                        id: `#id${i}${j}`,
+                    arr.push({ //push the change
+                        id: `#id${i}_${j}`,
                         class: "dead"
                     });
             }
@@ -170,19 +177,22 @@ function gameoflife() {
 }
 //make pause
 function pause() {
-    clearInterval(interval);
+    if (startflag) { //change running mode to pause mode of the game only if the game is running and set the mode flag
+        clearInterval(interval);
+        startflag = 0;
+    }
 }
-
+//fill the area by random places with the prasentage that the user choose 
 function randfill() {
     let numfill = parseInt(document.querySelector("#rand").value);
-    let cells = parseInt(colnum) * parseInt(rownum);
-    numfill = numfill * cells / 100;
+    let cells = colnum * rownum;
+    numfill = cells * numfill / 100; //calck the number of cells to change
     for (let k = 0; k <= numfill; k++) {
-        let i = Math.floor(Math.random() * parseInt(colnum));
-        let j = Math.floor(Math.random() * parseInt(rownum));
-        if (document.querySelector(`#id${i}${j}`).className === "alive")
+        let i = Math.floor(Math.random() * colnum);
+        let j = Math.floor(Math.random() * rownum);
+        if (document.querySelector(`#id${i}_${j}`).className === "alive") //if the cell is alredy alive rand again
             k--;
         else
-            document.querySelector(`#id${i}${j}`).className = "alive";
+            document.querySelector(`#id${i}_${j}`).className = "alive";
     }
 }
